@@ -1,12 +1,21 @@
 extern crate iron;
 #[macro_use] extern crate mime;
+extern crate router;
 
 use iron::prelude::*;
 use iron::status;
+use router::Router;
+
+mod gcd;
 
 fn main() {
+    let mut router = Router::new();
+
+    router.get("/", get_form, "root");
+    router.post("/gcd", gcd::post_gcd, "gcd");
+
     println!("Serving on http://localhost:3000...");
-    Iron::new(get_form).http("localhost:3000").unwrap();
+    Iron::new(router).http("localhost:3000").unwrap();
 }
 
 fn get_form(_request: &mut Request) -> IronResult<Response> {
