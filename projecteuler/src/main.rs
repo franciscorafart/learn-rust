@@ -1,10 +1,9 @@
-
-
 fn main() {
-    euler1();
+    println!("Result euler 1: {}", euler1());
+    println!("Result eluer 2: {}", euler2());
 }
 
-fn euler1() {
+fn euler1() -> i32 {
     let mut m5: i32 = 0;
     let mut m3: i32 = 0;
     let max: i32 = 1000;
@@ -27,9 +26,7 @@ fn euler1() {
         }
     }
 
-    let result = sum(multiples);
-
-    println!("Result {}", result);
+    sum(multiples)
 }
 
 fn sum(vec: Vec<i32>) -> i32 {
@@ -39,4 +36,31 @@ fn sum(vec: Vec<i32>) -> i32 {
     }
 
     sum
+}
+
+fn euler2() -> i32 {
+    let mut fib = vec![1];
+    let mut fib_even = vec![];
+
+    let mut prev_fib = 1;
+    let mut last_fib = 2;
+
+    while last_fib < 4000000 {
+        fib.push(last_fib);
+        if last_fib % 2 == 0 {
+            fib_even.push(last_fib);
+        }
+
+        let holder = prev_fib;
+        prev_fib = last_fib;
+        last_fib = holder + last_fib;
+    }
+
+    sum(fib_even)
+}
+
+#[test]
+fn test_euler() {
+    assert_eq!(euler1(), 233168);
+    assert_eq!(euler2(), 4613732);
 }
