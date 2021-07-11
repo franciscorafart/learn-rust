@@ -1,9 +1,10 @@
 fn main() {
-    println!("Result euler 1: {}", euler1());
-    println!("Result eluer 2: {}", euler2());
+    println!("Result euler 1 - Multiples 3 and 5: {}", multiples_three_five());
+    println!("Result eluer 2 - Even Fibonacci numbers: {}", even_fib());
+    println!("Result euler 3 - Largest Prime Factor: {}", largest_prime_factor());
 }
 
-fn euler1() -> i32 {
+fn multiples_three_five() -> i32 {
     let mut m5: i32 = 0;
     let mut m3: i32 = 0;
     let max: i32 = 1000;
@@ -38,7 +39,7 @@ fn sum(vec: Vec<i32>) -> i32 {
     sum
 }
 
-fn euler2() -> i32 {
+fn even_fib() -> i32 {
     let mut fib = vec![1];
     let mut fib_even = vec![];
 
@@ -59,8 +60,59 @@ fn euler2() -> i32 {
     sum(fib_even)
 }
 
+
+// largest prime factor
+fn largest_prime_factor() -> i64 {
+
+    let x = 600851475143;
+    let y = (x / 2) as i64;
+    let mut v = vec![];
+
+    for n in 2..y {
+        if is_prime(n) && x%n == 0 {
+            v.push(n);
+
+            let multiplication = multiply_primes(&v);
+            if multiplication == x {
+                return v[v.len() - 1]
+            } else if multiplication > x {
+                break;
+            }
+        }
+    }
+
+    x
+}
+
+fn is_prime(x: i64) -> bool {
+    if x%2 == 0 {
+        return false;
+    }
+
+    let mut y = x/2;
+
+    while y > 2 {
+        if x%y == 0 {
+            return false;
+        }
+        y-=1;
+    }
+
+    return true;
+}
+
+fn multiply_primes(v: &Vec<i64>) -> i64 {
+    let mut result = 1;
+    for p in v {
+        result = result * p;
+    }
+
+    result
+}
+
 #[test]
 fn test_euler() {
-    assert_eq!(euler1(), 233168);
-    assert_eq!(euler2(), 4613732);
+    assert_eq!(multiples_three_five(), 233168);
+    assert_eq!(even_fib(), 4613732);
+    assert_eq!(largest_prime_factor(), 6857);
 }
